@@ -91,6 +91,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,6 +108,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,6 +127,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +148,8 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,16 +159,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommandHelper.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="InputHelper.h" />
+    <ClInclude Include="Mod.h" />
+    <ClInclude Include="ModState.h" />
+    <ClInclude Include="PathHelper.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="UUIDHelper.h" />
+    <ClInclude Include="XMLToolKit.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MaxAnno1800Mod.cpp" />
+    <ClCompile Include="CommandHelper.cpp" />
+    <ClCompile Include="InputHelper.cpp" />
+    <ClCompile Include="Mod.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ModState.cpp" />
+    <ClCompile Include="PathHelper.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UUIDHelper.cpp" />
+    <ClCompile Include="XMLToolKit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\data\config\engine\enginesettings\default.xml" />
+    <Xml Include="..\data\config\export\main\asset\assets.xml" />
+    <Xml Include="..\data\config\game\camera.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\quickbms\1800.bms" />
+    <None Include="..\quickbms\quickbms_4gb_files.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\quickbms\quickbms.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

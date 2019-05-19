@@ -13,9 +13,60 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\data">
+      <UniqueIdentifier>{38272cc7-897b-4a9a-ba82-e7f6a832fbf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\config">
+      <UniqueIdentifier>{cd625d50-a1d6-451e-8db2-0eb369a698c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\config\engine">
+      <UniqueIdentifier>{2ebdf71f-0bd9-4254-8289-d6708781a128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\config\engine\enginesettings">
+      <UniqueIdentifier>{ed8742f1-34ab-49d4-acfe-c5da8c783ac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\config\export">
+      <UniqueIdentifier>{21eca27e-8a30-4eda-afe5-759fa58208d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\config\export\main">
+      <UniqueIdentifier>{403044c3-481f-46de-a1d2-a4673e40d43b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\config\export\main\asset">
+      <UniqueIdentifier>{060aa01b-03df-4cdf-bd00-ed0990243f93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\config\game">
+      <UniqueIdentifier>{2676644f-88af-4824-b241-6c1b3274324a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\quickbms">
+      <UniqueIdentifier>{f05fbbac-4c26-4b67-a18a-32628eece97a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UUIDHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLToolKit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -23,8 +74,53 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MaxAnno1800Mod.cpp">
+    <ClCompile Include="PathHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UUIDHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLToolKit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\data\config\engine\enginesettings\default.xml">
+      <Filter>Resource Files\data\config\engine\enginesettings</Filter>
+    </Xml>
+    <Xml Include="..\data\config\export\main\asset\assets.xml">
+      <Filter>Resource Files\data\config\export\main\asset</Filter>
+    </Xml>
+    <Xml Include="..\data\config\game\camera.xml">
+      <Filter>Resource Files\data\config\game</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\quickbms\1800.bms">
+      <Filter>Resource Files\quickbms</Filter>
+    </None>
+    <None Include="..\quickbms\quickbms_4gb_files.exe">
+      <Filter>Resource Files\quickbms</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\quickbms\quickbms.txt">
+      <Filter>Resource Files\quickbms</Filter>
+    </Text>
   </ItemGroup>
 </Project>

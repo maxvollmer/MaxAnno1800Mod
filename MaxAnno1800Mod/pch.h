@@ -9,6 +9,10 @@
 #ifndef PCH_H
 #define PCH_H
 
-// TODO: add headers that you want to pre-compile here
+#define NOMINMAX
+
+#include <windows.h>
+#include <Shlobj_core.h>
+#include <comdef.h>
 
 #endif //PCH_H

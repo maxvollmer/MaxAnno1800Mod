@@ -1,0 +1,109 @@
+# Anno 1800 only! - supports bigger rda files (ex. data8.rda)
+# script for QuickBMS http://quickbms.aluigi.org
+
+quickbmsver "0.7.0"
+getdstring SIGN 32
+goto 0x310
+get FIRST_NEXT longlong
+math RES_FILE_TYPE = 2
+get FULLSIZE asize
+for NEXT_OFF = FIRST_NEXT u< FULLSIZE
+    goto NEXT_OFF
+    math OFFSET = NEXT_OFF
+    get TYPE long
+    get FILES long
+    if RES_FILE_TYPE <= 1
+        get ZSIZE long
+        get SIZE long
+        get NEXT_OFF long
+    else
+        get ZSIZE longlong
+        get SIZE longlong
+        get NEXT_OFF longlong
+    endif
+    math OFFSET -= ZSIZE
+    savepos BACKUP_OFFSET
+    if SIZE != 0
+        if TYPE & 4
+            if RES_FILE_TYPE <= 1
+                math OFFSET -= 8
+            else
+                math OFFSET -= 16
+            endif
+        endif
+        callfunction SET_ENCRYPTION 1
+        if TYPE & 1
+            clog MEMORY_FILE OFFSET ZSIZE SIZE
+        else
+            log MEMORY_FILE OFFSET ZSIZE
+        endif
+        encryption "" ""
+        if TYPE & 4
+            math TMP = OFFSET
+            math TMP += ZSIZE
+            goto TMP
+            if RES_FILE_TYPE <= 1
+                get ZSIZE long
+                get SIZE long
+            else
+                get ZSIZE longlong
+                get SIZE longlong
+            endif
+            math OFFSET -= ZSIZE
+
+            callfunction SET_ENCRYPTION 1
+            if TYPE & 1
+                clog MEMORY_FILE2 OFFSET ZSIZE SIZE
+            else
+                log MEMORY_FILE2 OFFSET ZSIZE
+            endif
+            encryption "" ""
+        endif
+        for i = 0 < FILES
+            getdstring NAME 0x208 MEMORY_FILE
+            set NAME unicode NAME
+            get OFFSET longlong MEMORY_FILE
+            get ZSIZE longlong MEMORY_FILE
+            get SIZE longlong MEMORY_FILE
+            get CRC long MEMORY_FILE
+            get ZERO long MEMORY_FILE
+            get ZERO long MEMORY_FILE
+            get ZERO long MEMORY_FILE
+            if SIZE != 0
+                if TYPE & 4
+                    log NAME OFFSET ZSIZE MEMORY_FILE2
+                else
+                    callfunction SET_ENCRYPTION 1
+                    if TYPE & 1
+                        clog NAME OFFSET ZSIZE SIZE
+                    else
+                        log NAME OFFSET ZSIZE
+                    endif
+                    encryption "" ""
+                endif
+            endif
+        next i
+        goto BACKUP_OFFSET
+    endif
+next
+startfunction SET_ENCRYPTION
+    if TYPE & 2
+        math KEY = 0x71C71C71
+        putvarchr MEMORY_FILE3 ZSIZE 0 short
+        log MEMORY_FILE3 0 0
+        math TMPSZ = ZSIZE
+        math TMPSZ / 2
+        math TMPSZ * 2
+        for x = 0 u< TMPSZ
+            math KEY * 0x000343fd
+            math KEY + 0x00269ec3
+            math TMP = KEY
+            math TMP >> 16
+            math TMP & 0x7fff
+            putvarchr MEMORY_FILE3 x TMP short
+        next x + 2
+            putvarchr MEMORY_FILE3 x 0 short
+        getdstring XOR_KEY ZSIZE MEMORY_FILE3
+        encryption xor XOR_KEY "" 0 ZSIZE
+    endif
+endfunction
