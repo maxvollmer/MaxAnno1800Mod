@@ -46,7 +46,7 @@ A bit more detailed explanation what this does:
 
  - Adds 6 additional zoom levels.
  - Lowest zoom level goes down to 1m above ground.
- - Highest zoom level goes up to 5km above ground.
+ - Highest zoom level goes up to 1800m above ground.
  - Max view distance is increased to 5km in all quality settings.
  - Might affect performance on non-high-end PCs.
 
