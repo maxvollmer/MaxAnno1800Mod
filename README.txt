@@ -42,6 +42,12 @@ P.S. Everytime you cheat in a multiplayer game without knowledge and consent of 
 
 **************************************************************************************
 
+Compatibility with other mods: As of now, most, if not all, mods for Anno 1800 come as prepatched rda files that replace the original game files. This means that if 2 mods replace the same rda file, you can only install 1, but not both mods. Since this mod actively patches the existing rda files, you can first "install" another mod, and then run this tool.
+
+I am thinking about creating a generic mod tool that would allow modders to create mods for Anno 1800, so that multiple mods can co-exist. The tool would allow users to easily add and remove such content mods. (Similar to SMAPI/Content Patcher for SDV.) However before doing so, I want to wait for community feedback, so if you think this is a great idea, please leave a comment!
+
+**************************************************************************************
+
 A bit more detailed explanation what this does:
 
 1) Extended zoom:
