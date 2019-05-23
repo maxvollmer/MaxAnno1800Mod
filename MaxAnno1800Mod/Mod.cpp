@@ -1,8 +1,31 @@
-
-
 /*
-"D:\Work\Anno1800\quickbms+1800Script\quickbms_4gb_files.exe" -d -w -r "D:\Work\Anno1800\quickbms+1800Script\1800.bms" "E:\Spiele\Ubisoft\Anno 1800\maindata\data0.rda" "D:\Work\Anno1800\quickbms+1800Script\maindata"
-"D:\Work\Anno1800\quickbms+1800Script\quickbms_4gb_files.exe" -d -w -r "D:\Work\Anno1800\quickbms+1800Script\1800.bms" "E:\Spiele\Ubisoft\Anno 1800\maindata\data10.rda" "D:\Work\Anno1800\quickbms+1800Script\maindata"
+**************************************************************************************
+*
+* MaxAnno1800Mod 0.0.1 by Max Vollmer (https://github.com/maxvollmer/MaxAnno1800Mod)
+*  - Adds extended zoom.
+*  - Adds square ornament that was missing in the original game.
+*  - Enables hidden city ornaments.
+*  - Enables club ornaments (including pre-order statue and open-beta chess tables).
+*  - (Experimental) Turns some visual buildings into ornamental buildings that can be built.
+*  - (Cheat) Gives unrestricted access to all World Fair ornaments.
+*  - (Cheat) Boosts attractiveness of ornaments based on their building cost.
+*
+* License: CC BY-NC 4.0 (https://creativecommons.org/licenses/by-nc/4.0/)
+*
+* Each feature can be enabled or disabled individually.
+*
+* quickbms by Luigi Auriemma (http://quickbms.com)
+*
+* 1800.bms script file by kskudlik (https://github.com/kskudlik/Anno-1800-RDA-Extractor)
+*
+* DllExport by Denis Kuzmin (https://github.com/3F/DllExport)
+*
+* Mod might break with upcoming game updates.
+* No warranties whatsoever. Always backup your game files. Use this mod at your own risk.
+*
+* Anno 1800 and all related trademarks belong to Ubisoft.
+*
+**************************************************************************************
 */
 
 
@@ -18,6 +41,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <algorithm>
+#include <random>
 
 using namespace MaxAnno1800Mod;
 
@@ -31,7 +56,9 @@ Mod::Mod()
 
 Mod::~Mod()
 {
+#ifndef _DEBUG
 	MaxAnno1800Mod::PathHelper::RemoveTemporaryFolder(m_tempFolder);
+#endif
 }
 
 void Mod::DebugPrintLocations()
@@ -116,8 +143,15 @@ void Mod::PrintHeader()
 	std::cout << "* " << "MaxAnno1800Mod 0.0.1 by Max Vollmer (https://github.com/maxvollmer/MaxAnno1800Mod)" << std::endl;
 	std::cout << "* " << " - Adds extended zoom." << std::endl;
 	std::cout << "* " << " - Adds square ornament that was missing in the original game." << std::endl;
-	std::cout << "* " << " - Enables club ornaments (including chess tables for those who missed the beta)." << std::endl;
-	std::cout << "* " << " - (Cheat) Gives unlimited access to all World's Fair ornaments." << std::endl;
+	std::cout << "* " << " - Enables hidden city ornaments." << std::endl;
+	std::cout << "* " << " - Enables club ornaments (including pre-order statue and open-beta chess tables)." << std::endl;
+	std::cout << "* " << " - (Experimental) Turns some visual buildings into ornamental buildings that can be built." << std::endl;
+	std::cout << "* " << " - (Cheat) Gives unrestricted access to all World Fair ornaments." << std::endl;
+	std::cout << "* " << " - (Cheat) Boosts attractiveness of ornaments based on their building cost." << std::endl;
+	std::cout << "* " << std::endl;
+	std::cout << "* " << "License: CC BY-NC 4.0 (https://creativecommons.org/licenses/by-nc/4.0/)" << std::endl;
+	std::cout << "* " << std::endl;
+	std::cout << "* " << "Each feature can be enabled or disabled individually." << std::endl;
 	std::cout << "* " << std::endl;
 	std::cout << "* " << "quickbms by Luigi Auriemma (http://quickbms.com)" << std::endl;
 	std::cout << "* " << std::endl;
@@ -126,7 +160,7 @@ void Mod::PrintHeader()
 	std::cout << "* " << "DllExport by Denis Kuzmin (https://github.com/3F/DllExport)" << std::endl;
 	std::cout << "* " << std::endl;
 	std::cout << "* " << "Mod might break with upcoming game updates." << std::endl;
-	std::cout << "* " << "Use this mod at your own risk." << std::endl;
+	std::cout << "* " << "No warranties whatsoever. Always backup your game files. Use this mod at your own risk." << std::endl;
 	std::cout << "* " << std::endl;
 	std::cout << "* " << "Anno 1800 and all related trademarks belong to Ubisoft." << std::endl;
 	std::cout << "* " << std::endl;
@@ -242,11 +276,13 @@ void Mod::ExportGameData()
 	// "D:\Work\Anno1800\quickbms+1800Script\test"
 	BackupGameData();
 
+	std::cout << "Extracting game data from game folder, please wait..." << std::endl;
+
 	{
 		std::stringstream command;
 		command << m_quickbmsExe;
 		command << " -d -o -Q -Y -f ";
-		command << '"' << Constants::ViewDistanceSettings << ',' << Constants::CameraSettings << ',' << Constants::Assets << '"' << ' ';
+		command << '"' << Constants::ViewDistanceSettings << ',' << Constants::CameraSettings << '"' << ' ';
 		command << m_quickbms1800Script;
 		command << ' ';
 		command << m_anno1800data0Location;
@@ -295,15 +331,6 @@ void Mod::ExportGameData()
 		std::exit(-1);
 	}
 
-	m_anno1800data0AssetsLocation = m_tempFolder;
-	m_anno1800data0AssetsLocation.append("data0.rda").append(Constants::Assets);
-	m_anno1800data0AssetsLocation = std::filesystem::canonical(m_anno1800data0AssetsLocation);
-	if (!MaxAnno1800Mod::PathHelper::IsValidFile(m_anno1800data0AssetsLocation))
-	{
-		std::cerr << "Couldn't extract assets.xml from maindata/data0.rda, aborting." << std::endl;
-		std::exit(-1);
-	}
-
 	m_anno1800data10AssetsLocation = m_tempFolder;
 	m_anno1800data10AssetsLocation.append("data10.rda").append(Constants::Assets);
 	m_anno1800data10AssetsLocation = std::filesystem::canonical(m_anno1800data10AssetsLocation);
@@ -312,6 +339,8 @@ void Mod::ExportGameData()
 		std::cerr << "Couldn't extract assets.xml from maindata/data10.rda, aborting." << std::endl;
 		std::exit(-1);
 	}
+
+	std::cout << "...done extracting game data from game folder." << std::endl << std::endl;
 }
 
 void Mod::ImportGameData()
@@ -319,8 +348,8 @@ void Mod::ImportGameData()
 	{
 		std::stringstream command;
 		command << m_quickbmsExe;
-		command << " -d -w -r -Q -Y -f ";
-		command << '"' << Constants::ViewDistanceSettings << ',' << Constants::CameraSettings << ',' << Constants::Assets << '"' << ' ';
+		command << " -d -w -r -Q -Y -b 20 -f ";
+		command << '"' << Constants::ViewDistanceSettings << ',' << Constants::CameraSettings << '"' << ' ';
 		command << m_quickbms1800Script;
 		command << ' ';
 		command << m_anno1800data0Location;
@@ -333,7 +362,7 @@ void Mod::ImportGameData()
 	{
 		std::stringstream command;
 		command << m_quickbmsExe;
-		command << " -d -w -r -Q -Y -f ";
+		command << " -d -w -r -Q -Y -b 20 -f ";
 		command << '"' << Constants::Assets << '"' << ' ';
 		command << m_quickbms1800Script;
 		command << ' ';
@@ -350,35 +379,59 @@ void Mod::ApplyAction(ModAction action)
 	switch (action)
 	{
 	case ModAction::INSTALL_ALL:
-		XMLToolKit::Instance()->ToggleZoom(m_anno1800data0ViewDistanceSettingsLocation, m_anno1800data0CameraSettingsLocation, true);
-		XMLToolKit::Instance()->ToggleSquareOrnament(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, true);
-		XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, true);
-		XMLToolKit::Instance()->ToggleCheatOrnaments(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, true);
+		{
+			if (!ModState::IsZoomInstalled)				XMLToolKit::Instance()->ToggleZoom(m_anno1800data0ViewDistanceSettingsLocation, m_anno1800data0CameraSettingsLocation, true);
+			if (!ModState::IsSquareOrnamentInstalled)	XMLToolKit::Instance()->ToggleSquareOrnament(m_anno1800data10AssetsLocation, true);
+			if (!ModState::AreCityOrnamentsInstalled)	XMLToolKit::Instance()->ToggleCityOrnaments(m_anno1800data10AssetsLocation, true);
+			if (!ModState::AreClubOrnamentsInstalled)	XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data10AssetsLocation, true);
+			if (!ModState::AreVisualObjectsOrnaments)	XMLToolKit::Instance()->ToggleVisualObjectsOrnaments(m_anno1800data10AssetsLocation, true);
+			if (!ModState::AreCheatOrnamentsInstalled)	XMLToolKit::Instance()->ToggleCheatOrnaments(m_anno1800data10AssetsLocation, true);
+			if (!ModState::AreOrnamentsBoosted)			XMLToolKit::Instance()->ToggleOrnamentBoost(m_anno1800data10AssetsLocation, true);
+		}
 		break;
 	case ModAction::UNINSTALL_ALL:
-		XMLToolKit::Instance()->ToggleZoom(m_anno1800data0ViewDistanceSettingsLocation, m_anno1800data0CameraSettingsLocation, false);
-		XMLToolKit::Instance()->ToggleSquareOrnament(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, false);
-		XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, false);
-		XMLToolKit::Instance()->ToggleCheatOrnaments(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, false);
+		{
+			if (ModState::IsZoomInstalled)				XMLToolKit::Instance()->ToggleZoom(m_anno1800data0ViewDistanceSettingsLocation, m_anno1800data0CameraSettingsLocation, false);
+			if (ModState::IsSquareOrnamentInstalled)	XMLToolKit::Instance()->ToggleSquareOrnament(m_anno1800data10AssetsLocation, false);
+			if (ModState::AreCityOrnamentsInstalled)	XMLToolKit::Instance()->ToggleCityOrnaments(m_anno1800data10AssetsLocation, false);
+			if (ModState::AreClubOrnamentsInstalled)	XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data10AssetsLocation, false);
+			if (ModState::AreVisualObjectsOrnaments)	XMLToolKit::Instance()->ToggleVisualObjectsOrnaments(m_anno1800data10AssetsLocation, false);
+			if (ModState::AreCheatOrnamentsInstalled)	XMLToolKit::Instance()->ToggleCheatOrnaments(m_anno1800data10AssetsLocation, false);
+			if (ModState::AreOrnamentsBoosted)			XMLToolKit::Instance()->ToggleOrnamentBoost(m_anno1800data10AssetsLocation, false);
+		}
 		break;
+
 	case ModAction::TOGGLE_ZOOM:
 		XMLToolKit::Instance()->ToggleZoom(m_anno1800data0ViewDistanceSettingsLocation, m_anno1800data0CameraSettingsLocation, !ModState::IsZoomInstalled);
 		break;
 	case ModAction::TOGGLE_SQUARE_ORNAMENT:
-		XMLToolKit::Instance()->ToggleSquareOrnament(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, !ModState::IsSquareOrnamentInstalled);
+		XMLToolKit::Instance()->ToggleSquareOrnament(m_anno1800data10AssetsLocation, !ModState::IsSquareOrnamentInstalled);
+		break;
+	case ModAction::TOGGLE_CITY_ORNAMENTS:
+		XMLToolKit::Instance()->ToggleCityOrnaments(m_anno1800data10AssetsLocation, !ModState::AreCityOrnamentsInstalled);
 		break;
 	case ModAction::TOGGLE_CLUB_ORNAMENTS:
-		XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, !ModState::AreClubOrnamentsInstalled);
+		XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data10AssetsLocation, !ModState::AreClubOrnamentsInstalled);
+		break;
+	case ModAction::TOGGLE_VISUALOBJECTS_ORNAMENTS:
+		XMLToolKit::Instance()->ToggleVisualObjectsOrnaments(m_anno1800data10AssetsLocation, !ModState::AreVisualObjectsOrnaments);
 		break;
 	case ModAction::TOGGLE_CHEAT_ORNAMENTS:
-		XMLToolKit::Instance()->ToggleCheatOrnaments(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation, !ModState::AreCheatOrnamentsInstalled);
+		XMLToolKit::Instance()->ToggleCheatOrnaments(m_anno1800data10AssetsLocation, !ModState::AreCheatOrnamentsInstalled);
+		break;
+	case ModAction::TOGGLE_ORNAMENT_BOOST:
+		XMLToolKit::Instance()->ToggleOrnamentBoost(m_anno1800data10AssetsLocation, !ModState::AreOrnamentsBoosted);
 		break;
 
 	case ModAction::RESTORE_BACKUP:
 		RestoreBackup();
 		break;
 	case ModAction::APPLY:
-		ImportGameData();
+		ApplyChanges();
+		break;
+
+	case ModAction::TEST:
+		RunTest();
 		break;
 
 	case ModAction::CANCEL:
@@ -387,13 +440,64 @@ void Mod::ApplyAction(ModAction action)
 		break;
 	}
 
-	InitModState();
+	std::cout << std::endl;
+
+	if (action != ModAction::RESTORE_BACKUP && action != ModAction::CANCEL && action != ModAction::APPLY)
+	{
+		InitModState();
+	}
+}
+
+void Mod::ApplyChanges()
+{
+	std::cout << "Applying changes, this might take a while..." << std::endl;
+	XMLToolKit::Instance()->ApplyChanges(m_anno1800data0ViewDistanceSettingsLocation);
+	XMLToolKit::Instance()->ApplyChanges(m_anno1800data0CameraSettingsLocation);
+	XMLToolKit::Instance()->ApplyChanges(m_anno1800data10AssetsLocation);
+	std::cout << "...done applying changes, importing game files into game..." << std::endl;
+	ImportGameData();
+	std::cout << "...done importing game files into game." << std::endl << std::endl;
 }
 
 void Mod::InitModState()
 {
+	std::cout << "Getting state of things, this might take a while..." << std::endl;
 	ModState::IsZoomInstalled = XMLToolKit::Instance()->IsZoomInstalled(m_anno1800data0ViewDistanceSettingsLocation, m_anno1800data0CameraSettingsLocation);
-	ModState::IsSquareOrnamentInstalled = XMLToolKit::Instance()->IsSquareOrnamentInstalled(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation);
-	ModState::AreClubOrnamentsInstalled = XMLToolKit::Instance()->AreClubOrnamentsInstalled(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation);
-	ModState::AreCheatOrnamentsInstalled = XMLToolKit::Instance()->AreCheatOrnamentsInstalled(m_anno1800data0AssetsLocation, m_anno1800data10AssetsLocation);
+	ModState::IsSquareOrnamentInstalled = XMLToolKit::Instance()->IsSquareOrnamentInstalled(m_anno1800data10AssetsLocation);
+	ModState::AreCityOrnamentsInstalled = XMLToolKit::Instance()->AreCityOrnamentsInstalled(m_anno1800data10AssetsLocation);
+	ModState::AreClubOrnamentsInstalled = XMLToolKit::Instance()->AreClubOrnamentsInstalled(m_anno1800data10AssetsLocation);
+	ModState::AreCheatOrnamentsInstalled = XMLToolKit::Instance()->AreCheatOrnamentsInstalled(m_anno1800data10AssetsLocation);
+	ModState::AreVisualObjectsOrnaments = XMLToolKit::Instance()->AreVisualObjectsOrnaments(m_anno1800data10AssetsLocation);
+	ModState::AreOrnamentsBoosted = XMLToolKit::Instance()->AreOrnamentsBoosted(m_anno1800data10AssetsLocation);
+	std::cout << "...done." << std::endl << std::endl;
+}
+
+void Mod::RunTest()
+{
+	std::cout << "TEST COMMENCING - THIS WILL TAKE A LONG TIME!" << std::endl;
+
+	// First we install and uninstall 2 times
+	ApplyAction(ModAction::INSTALL_ALL);
+	ApplyAction(ModAction::UNINSTALL_ALL);
+	ApplyAction(ModAction::INSTALL_ALL);
+	ApplyAction(ModAction::UNINSTALL_ALL);
+
+	// Then we install and uninstall in random order
+	std::vector<ModAction> actions = { ModAction::TOGGLE_CITY_ORNAMENTS, ModAction::TOGGLE_CHEAT_ORNAMENTS, ModAction::TOGGLE_CLUB_ORNAMENTS, ModAction::TOGGLE_ORNAMENT_BOOST, ModAction::TOGGLE_SQUARE_ORNAMENT, ModAction::TOGGLE_VISUALOBJECTS_ORNAMENTS, ModAction::TOGGLE_ZOOM };
+	for (int i = 0; i < TEST_TIMES; i++)
+	{
+		std::shuffle(actions.begin(), actions.end(), std::mt19937(std::random_device{}()));
+		for (ModAction action : actions)
+		{
+			ApplyAction(action);
+		}
+	}
+
+	// And last we again install and uninstall 2 times
+	ApplyAction(ModAction::INSTALL_ALL);
+	ApplyAction(ModAction::UNINSTALL_ALL);
+	ApplyAction(ModAction::INSTALL_ALL);
+	ApplyAction(ModAction::UNINSTALL_ALL);
+
+	std::cout << "FINISHED TEST - If no errors/exceptions/etc happened, all is (probably) fine." << std::endl << std::endl;
 }

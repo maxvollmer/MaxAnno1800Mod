@@ -122,5 +122,6 @@
     <Text Include="..\quickbms\quickbms.txt">
       <Filter>Resource Files\quickbms</Filter>
     </Text>
+    <Text Include="..\README.txt" />
   </ItemGroup>
 </Project>

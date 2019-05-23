@@ -50,13 +50,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AssetsXMLHelper.cs" />
     <Compile Include="DLLEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Toolkit\BuildPermitBuildingToOrnamentalBuildingConverter.cs" />
+    <Compile Include="Toolkit\CityOrnamentUnlocker.cs" />
+    <Compile Include="Toolkit\VisualObjectToOrnamentalBuildingConverter.cs" />
+    <Compile Include="Toolkit\OrnamentBooster.cs" />
+    <Compile Include="Toolkit\SquareOrnamentUnlocker.cs" />
+    <Compile Include="Toolkit\ClubOrnamentUnlocker.cs" />
+    <Compile Include="Toolkit\ZoomInstaller.cs" />
+    <Compile Include="Toolkit\Zoom\QualityLevels.cs" />
+    <Compile Include="Toolkit\Zoom\ZoomLevels.cs" />
     <Compile Include="Toolkit\XMLToolKit.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)MaxAnno1800ModXMLToolkit.dll" "$(SolutionDir)$(Configuration)\" /F /R /Y /I
+if $(ConfigurationName) == Debug xcopy "$(TargetDir)MaxAnno1800ModXMLToolkit.pdb" "$(SolutionDir)$(Configuration)\" /F /R /Y /I
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
