@@ -9,6 +9,8 @@
 *  - (Cheat) Gives unrestricted access to all World Fair ornaments.
 *  - (Cheat) Boosts attractiveness of ornaments based on their building cost.
 * 
+* Web: https://www.nexusmods.com/anno1800/mods/2
+* 
 * License: CC BY-NC 4.0 (https://creativecommons.org/licenses/by-nc/4.0/)
 * 
 * Each feature can be enabled or disabled individually.
