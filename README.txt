@@ -85,6 +85,7 @@ A bit more detailed explanation what this does:
  - Use at own risk. Turns some visual buildings into ornamental buildings:
  - cemetery church, cemetery decorative building, cemetery mausoleum, cemetery ground/square (similar to the city square, but slightly lighter), blake's mansion.
  - Made accessible in U-Club reward build menu.
+ - Please note that if you disable this feature you won't be able to move, demolish or otherwise interact with any visual buildings you have built through this feature, as the game won't treat them as buildings without this mod. So make sure you demolish all such buildings before removing this mod.
 
  6) (Cheat) Unrestricted access to all World Fair ornaments:
 
