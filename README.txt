@@ -42,6 +42,14 @@ P.S. Everytime you cheat in a multiplayer game without knowledge and consent of 
 
 **************************************************************************************
 
+KNOWN ISSUES:
+
+1. Names and descriptions of some of the ornaments are wrong. For this to work my tool also has to patch all language files, which I might address in a future version.
+
+2. Unfortunately all ornaments unlocked with this mod are available for building immediately (including those on artisan and investor tiers). I haven't figured out yet how to prevent this. There is a "DefaultLockedState" parameter for assets, but the game seems to ignore it. If anyone knows more, please get in touch!
+
+**************************************************************************************
+
 Compatibility with other mods: As of now, most, if not all, mods for Anno 1800 come as prepatched rda files that replace the original game files. This means that if 2 mods replace the same rda file, you can only install 1, but not both mods. Since this mod actively patches the existing rda files, you can first "install" another mod, and then run this tool.
 
 I am thinking about creating a generic mod tool that would allow modders to create mods for Anno 1800, so that multiple mods can co-exist. The tool would allow users to easily add and remove such content mods. (Similar to SMAPI/Content Patcher for SDV.) However before doing so, I want to wait for community feedback, so if you think this is a great idea, please leave a comment!
