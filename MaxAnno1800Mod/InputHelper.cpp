@@ -77,6 +77,7 @@ void InputHelper::PrintModActionPrompt()
 	std::cout << " " << char(ModAction::TOGGLE_SQUARE_ORNAMENT) << " - " << InstallModeFromState(ModState::IsSquareOrnamentInstalled) << " square ornament" << std::endl;
 	std::cout << " " << char(ModAction::TOGGLE_CITY_ORNAMENTS) << " - " << InstallModeFromState(ModState::AreCityOrnamentsInstalled) << " city ornaments" << std::endl;
 	std::cout << " " << char(ModAction::TOGGLE_CLUB_ORNAMENTS) << " - " << InstallModeFromState(ModState::AreClubOrnamentsInstalled) << " club ornaments" << std::endl;
+	std::cout << " " << char(ModAction::TOGGLE_EXTRA_ORNAMENTS) << " - " << InstallModeFromState(ModState::AreExtraOrnamentsInstalled) << " extra club ornaments" << std::endl;
 	std::cout << " " << char(ModAction::TOGGLE_VISUALOBJECTS_ORNAMENTS) << " - " << InstallModeFromState(ModState::AreVisualObjectsOrnaments) << " visual objects ornaments" << std::endl;
 	std::cout << " " << char(ModAction::TOGGLE_CHEAT_ORNAMENTS) << " - " << InstallModeFromState(ModState::AreCheatOrnamentsInstalled) << " cheat ornaments" << std::endl;
 	std::cout << " " << char(ModAction::TOGGLE_ORNAMENT_BOOST) << " - " << InstallModeFromState(ModState::AreOrnamentsBoosted) << " ornament attractiveness boost" << std::endl;
@@ -107,6 +108,7 @@ ModAction InputHelper::PromptModAction()
 		case ModAction::TOGGLE_SQUARE_ORNAMENT:
 		case ModAction::TOGGLE_CITY_ORNAMENTS:
 		case ModAction::TOGGLE_CLUB_ORNAMENTS:
+		case ModAction::TOGGLE_EXTRA_ORNAMENTS:
 		case ModAction::TOGGLE_CHEAT_ORNAMENTS:
 		case ModAction::TOGGLE_VISUALOBJECTS_ORNAMENTS:
 		case ModAction::TOGGLE_ORNAMENT_BOOST:

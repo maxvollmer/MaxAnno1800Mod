@@ -128,6 +128,28 @@ void Mod::GetLocations()
 		std::exit(-1);
 	}
 
+	m_anno1800data14Location = m_anno1800InstallLocation;
+	m_anno1800data14Location.append("maindata").append("data14.rda");
+	if (!MaxAnno1800Mod::PathHelper::IsValidFile(m_anno1800data14Location))
+	{
+		std::cerr << "Couldn't find maindata/data14.rda in Anno 1800 game folder, make sure you have selected the correct game folder." << std::endl;
+		std::exit(-1);
+	}
+
+	m_anno1800data15Location = m_anno1800InstallLocation;
+	m_anno1800data15Location.append("maindata").append("data15.rda");
+	if (!MaxAnno1800Mod::PathHelper::IsValidFile(m_anno1800data15Location))
+	{
+		std::cerr << "Couldn't find maindata/data15.rda in Anno 1800 game folder, make sure you have selected the correct game folder." << std::endl;
+		std::exit(-1);
+	}
+	m_anno1800data16Location = m_anno1800InstallLocation;
+	m_anno1800data16Location.append("maindata").append("data16.rda");
+	if (!MaxAnno1800Mod::PathHelper::IsValidFile(m_anno1800data16Location))
+	{
+		std::cerr << "Couldn't find maindata/data16.rda in Anno 1800 game folder, make sure you have selected the correct game folder." << std::endl;
+		std::exit(-1);
+	}
 	m_tempFolder = MaxAnno1800Mod::PathHelper::GetTemporaryFolderLocation();
 	if (!MaxAnno1800Mod::PathHelper::IsValidFolder(m_tempFolder))
 	{
@@ -177,7 +199,16 @@ void Mod::BackupGameData()
 	auto anno1800data10BackupLocation = m_anno1800data10Location;
 	anno1800data10BackupLocation.concat(".backup");
 
-	if (std::filesystem::exists(anno1800data0BackupLocation) && std::filesystem::exists(anno1800data10BackupLocation))
+	auto anno1800data14BackupLocation = m_anno1800data14Location;
+	anno1800data14BackupLocation.concat(".backup");
+
+	auto anno1800data15BackupLocation = m_anno1800data15Location;
+	anno1800data15BackupLocation.concat(".backup");
+
+	auto anno1800data16BackupLocation = m_anno1800data16Location;
+	anno1800data16BackupLocation.concat(".backup");
+
+	if (std::filesystem::exists(anno1800data0BackupLocation) && std::filesystem::exists(anno1800data10BackupLocation) && std::filesystem::exists(anno1800data14BackupLocation) && std::filesystem::exists(anno1800data15BackupLocation) && std::filesystem::exists(anno1800data16BackupLocation))
 	{
 		std::cout << "Found backups for Anno 1800 game files." << std::endl << std::endl;
 		return;
@@ -216,6 +247,47 @@ void Mod::BackupGameData()
 			std::cerr << "Backup failed, error message: " << e.what() << std::endl;
 		}
 	}
+	if (!std::filesystem::exists(anno1800data14BackupLocation))
+	{
+		std::cout << "Creating backup for Anno 1800 maindata/data14.rda game file, please wait." << std::endl;
+		try
+		{
+			std::filesystem::copy(m_anno1800data14Location, anno1800data14BackupLocation);
+			std::cout << "Backup for Anno 1800 maindata/data14.rda game file successfully created." << std::endl;
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			std::cerr << "Backup failed, error message: " << e.what() << std::endl;
+		}
+	}
+
+	if (!std::filesystem::exists(anno1800data15BackupLocation))
+	{
+		std::cout << "Creating backup for Anno 1800 maindata/data15.rda game file, please wait." << std::endl;
+		try
+		{
+			std::filesystem::copy(m_anno1800data15Location, anno1800data15BackupLocation);
+			std::cout << "Backup for Anno 1800 maindata/data15.rda game file successfully created." << std::endl;
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			std::cerr << "Backup failed, error message: " << e.what() << std::endl;
+		}
+	}
+
+	if (!std::filesystem::exists(anno1800data16BackupLocation))
+	{
+		std::cout << "Creating backup for Anno 1800 maindata/data16.rda game file, please wait." << std::endl;
+		try
+		{
+			std::filesystem::copy(m_anno1800data15Location, anno1800data16BackupLocation);
+			std::cout << "Backup for Anno 1800 maindata/data16.rda game file successfully created." << std::endl;
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			std::cerr << "Backup failed, error message: " << e.what() << std::endl;
+		}
+	}
 
 	std::cout << std::endl << std::endl;
 }
@@ -227,6 +299,15 @@ void Mod::RestoreBackup()
 
 	auto anno1800data10BackupLocation = m_anno1800data10Location;
 	anno1800data10BackupLocation.concat(".backup");
+
+	auto anno1800data14BackupLocation = m_anno1800data14Location;
+	anno1800data14BackupLocation.concat(".backup");
+
+	auto anno1800data15BackupLocation = m_anno1800data15Location;
+	anno1800data15BackupLocation.concat(".backup");
+
+	auto anno1800data16BackupLocation = m_anno1800data16Location;
+	anno1800data16BackupLocation.concat(".backup");
 
 	if (MaxAnno1800Mod::PathHelper::IsValidFile(anno1800data0BackupLocation))
 	{
@@ -262,6 +343,60 @@ void Mod::RestoreBackup()
 	else
 	{
 		std::cerr << "No backup for maindata/data10.rda game file found, can't restore." << std::endl;
+	}
+
+	if (MaxAnno1800Mod::PathHelper::IsValidFile(anno1800data14BackupLocation))
+	{
+		std::cout << "Restoring backup for Anno 1800 maindata/data14.rda game file, please wait." << std::endl;
+		try
+		{
+			std::filesystem::copy(anno1800data14BackupLocation, m_anno1800data14Location, std::filesystem::copy_options::overwrite_existing);
+			std::cout << "Anno 1800 maindata/data14.rda game file successfully restored." << std::endl;
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			std::cerr << "Restore failed, error message: " << e.what() << std::endl;
+		}
+	}
+	else
+	{
+		std::cerr << "No backup for maindata/data14.rda game file found, can't restore." << std::endl;
+	}
+
+	if (MaxAnno1800Mod::PathHelper::IsValidFile(anno1800data15BackupLocation))
+	{
+		std::cout << "Restoring backup for Anno 1800 maindata/data15.rda game file, please wait." << std::endl;
+		try
+		{
+			std::filesystem::copy(anno1800data15BackupLocation, m_anno1800data15Location, std::filesystem::copy_options::overwrite_existing);
+			std::cout << "Anno 1800 maindata/data15.rda game file successfully restored." << std::endl;
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			std::cerr << "Restore failed, error message: " << e.what() << std::endl;
+		}
+	}
+	else
+	{
+		std::cerr << "No backup for maindata/data15.rda game file found, can't restore." << std::endl;
+	}
+
+	if (MaxAnno1800Mod::PathHelper::IsValidFile(anno1800data16BackupLocation))
+	{
+		std::cout << "Restoring backup for Anno 1800 maindata/data16.rda game file, please wait." << std::endl;
+		try
+		{
+			std::filesystem::copy(anno1800data16BackupLocation, m_anno1800data15Location, std::filesystem::copy_options::overwrite_existing);
+			std::cout << "Anno 1800 maindata/data16.rda game file successfully restored." << std::endl;
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			std::cerr << "Restore failed, error message: " << e.what() << std::endl;
+		}
+	}
+	else
+	{
+		std::cerr << "No backup for maindata/data16.rda game file found, can't restore." << std::endl;
 	}
 
 	std::cout << std::endl << std::endl;
@@ -306,6 +441,49 @@ void Mod::ExportGameData()
 		CommandHelper::ExecuteCommand(command.str());
 	}
 
+	{
+		std::stringstream command;
+		command << m_quickbmsExe;
+		command << " -d -o -Q -Y -f ";
+		command << '"' << Constants::Assets << '"' << ' ';
+		command << m_quickbms1800Script;
+		command << ' ';
+		command << m_anno1800data14Location;
+		command << ' ';
+		command << m_tempFolder;
+
+		CommandHelper::ExecuteCommand(command.str());
+	}
+
+	{
+		std::stringstream command;
+		command << m_quickbmsExe;
+		command << " -d -o -Q -Y -f ";
+		command << '"' << Constants::Assets << '"' << ' ';
+		command << m_quickbms1800Script;
+		command << ' ';
+		command << m_anno1800data15Location;
+		command << ' ';
+		command << m_tempFolder;
+
+		CommandHelper::ExecuteCommand(command.str());
+	}
+
+
+	{
+		std::stringstream command;
+		command << m_quickbmsExe;
+		command << " -d -o -Q -Y -f ";
+		command << '"' << Constants::Assets << '"' << ' ';
+		command << m_quickbms1800Script;
+		command << ' ';
+		command << m_anno1800data16Location;
+		command << ' ';
+		command << m_tempFolder;
+
+		CommandHelper::ExecuteCommand(command.str());
+	}
+
 	m_anno1800data0ViewDistanceSettingsLocation = m_tempFolder;
 	m_anno1800data0ViewDistanceSettingsLocation.append("data0.rda").append(Constants::ViewDistanceSettings);
 	try
@@ -340,12 +518,41 @@ void Mod::ExportGameData()
 		std::exit(-1);
 	}
 
+	m_anno1800data14AssetsLocation = m_tempFolder;
+	m_anno1800data14AssetsLocation.append("data14.rda").append(Constants::Assets);
+	m_anno1800data14AssetsLocation = std::filesystem::canonical(m_anno1800data14AssetsLocation);
+	if (!MaxAnno1800Mod::PathHelper::IsValidFile(m_anno1800data14AssetsLocation))
+	{
+		std::cerr << "Couldn't extract assets.xml from maindata/data14.rda, aborting." << std::endl;
+		std::exit(-1);
+	}
+
+	m_anno1800data15AssetsLocation = m_tempFolder;
+	m_anno1800data15AssetsLocation.append("data15.rda").append(Constants::Assets);
+	m_anno1800data15AssetsLocation = std::filesystem::canonical(m_anno1800data15AssetsLocation);
+	if (!MaxAnno1800Mod::PathHelper::IsValidFile(m_anno1800data15AssetsLocation))
+	{
+		std::cerr << "Couldn't extract assets.xml from maindata/data15.rda, aborting." << std::endl;
+		std::exit(-1);
+	}
+
+	m_anno1800data16AssetsLocation = m_tempFolder;
+	m_anno1800data16AssetsLocation.append("data16.rda").append(Constants::Assets);
+	m_anno1800data16AssetsLocation = std::filesystem::canonical(m_anno1800data16AssetsLocation);
+	if (!MaxAnno1800Mod::PathHelper::IsValidFile(m_anno1800data16AssetsLocation))
+	{
+		std::cerr << "Couldn't extract assets.xml from maindata/data16.rda, aborting." << std::endl;
+		std::exit(-1);
+	}
+
 	std::cout << "...done extracting game data from game folder." << std::endl << std::endl;
 }
 
 void Mod::ImportGameData()
 {
+
 	{
+		std::cout << "Importing data0.rda" << std::endl;
 		std::stringstream command;
 		command << m_quickbmsExe;
 		command << " -d -w -r -Q -Y -b 20 -f ";
@@ -360,6 +567,7 @@ void Mod::ImportGameData()
 	}
 
 	{
+		std::cout << "Importing data10.rda" << std::endl;
 		std::stringstream command;
 		command << m_quickbmsExe;
 		command << " -d -w -r -Q -Y -b 20 -f ";
@@ -367,6 +575,51 @@ void Mod::ImportGameData()
 		command << m_quickbms1800Script;
 		command << ' ';
 		command << m_anno1800data10Location;
+		command << ' ';
+		command << m_tempFolder;
+
+		CommandHelper::ExecuteCommand(command.str());
+	}
+
+	{
+		std::cout << "Importing data14.rda" << std::endl;
+		std::stringstream command;
+		command << m_quickbmsExe;
+		command << " -d -w -r -Q -Y -b 20 -f ";
+		command << '"' << Constants::Assets << '"' << ' ';
+		command << m_quickbms1800Script;
+		command << ' ';
+		command << m_anno1800data14Location;
+		command << ' ';
+		command << m_tempFolder;
+
+		CommandHelper::ExecuteCommand(command.str());
+	}
+
+	{
+		std::cout << "Importing data15.rda" << std::endl;
+		std::stringstream command;
+		command << m_quickbmsExe;
+		command << " -d -w -r -Q -Y -b 20 -f ";
+		command << '"' << Constants::Assets << '"' << ' ';
+		command << m_quickbms1800Script;
+		command << ' ';
+		command << m_anno1800data15Location;
+		command << ' ';
+		command << m_tempFolder;
+
+		CommandHelper::ExecuteCommand(command.str());
+	}
+
+	{
+		std::cout << "Importing data16.rda" << std::endl;
+		std::stringstream command;
+		command << m_quickbmsExe;
+		command << " -d -w -r -Q -Y -b 20 -f ";
+		command << '"' << Constants::Assets << '"' << ' ';
+		command << m_quickbms1800Script;
+		command << ' ';
+		command << m_anno1800data16Location;
 		command << ' ';
 		command << m_tempFolder;
 
@@ -384,6 +637,7 @@ void Mod::ApplyAction(ModAction action)
 			if (!ModState::IsSquareOrnamentInstalled)	XMLToolKit::Instance()->ToggleSquareOrnament(m_anno1800data10AssetsLocation, true);
 			if (!ModState::AreCityOrnamentsInstalled)	XMLToolKit::Instance()->ToggleCityOrnaments(m_anno1800data10AssetsLocation, true);
 			if (!ModState::AreClubOrnamentsInstalled)	XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data10AssetsLocation, true);
+			if (!ModState::AreExtraOrnamentsInstalled) { XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data14AssetsLocation, true); XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data15AssetsLocation, true); XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data16AssetsLocation, true); }
 			if (!ModState::AreVisualObjectsOrnaments)	XMLToolKit::Instance()->ToggleVisualObjectsOrnaments(m_anno1800data10AssetsLocation, true);
 			if (!ModState::AreCheatOrnamentsInstalled)	XMLToolKit::Instance()->ToggleCheatOrnaments(m_anno1800data10AssetsLocation, true);
 			if (!ModState::AreOrnamentsBoosted)			XMLToolKit::Instance()->ToggleOrnamentBoost(m_anno1800data10AssetsLocation, true);
@@ -395,6 +649,7 @@ void Mod::ApplyAction(ModAction action)
 			if (ModState::IsSquareOrnamentInstalled)	XMLToolKit::Instance()->ToggleSquareOrnament(m_anno1800data10AssetsLocation, false);
 			if (ModState::AreCityOrnamentsInstalled)	XMLToolKit::Instance()->ToggleCityOrnaments(m_anno1800data10AssetsLocation, false);
 			if (ModState::AreClubOrnamentsInstalled)	XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data10AssetsLocation, false);
+			if (ModState::AreExtraOrnamentsInstalled) { XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data14AssetsLocation, false); XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data15AssetsLocation, false); XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data16AssetsLocation, false); }
 			if (ModState::AreVisualObjectsOrnaments)	XMLToolKit::Instance()->ToggleVisualObjectsOrnaments(m_anno1800data10AssetsLocation, false);
 			if (ModState::AreCheatOrnamentsInstalled)	XMLToolKit::Instance()->ToggleCheatOrnaments(m_anno1800data10AssetsLocation, false);
 			if (ModState::AreOrnamentsBoosted)			XMLToolKit::Instance()->ToggleOrnamentBoost(m_anno1800data10AssetsLocation, false);
@@ -412,6 +667,11 @@ void Mod::ApplyAction(ModAction action)
 		break;
 	case ModAction::TOGGLE_CLUB_ORNAMENTS:
 		XMLToolKit::Instance()->ToggleClubOrnaments(m_anno1800data10AssetsLocation, !ModState::AreClubOrnamentsInstalled);
+		break;
+	case ModAction::TOGGLE_EXTRA_ORNAMENTS:
+		XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data14AssetsLocation, !ModState::AreExtraOrnamentsInstalled);
+		XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data15AssetsLocation, !ModState::AreExtraOrnamentsInstalled);
+		XMLToolKit::Instance()->ToggleExtraOrnaments(m_anno1800data16AssetsLocation, !ModState::AreExtraOrnamentsInstalled);
 		break;
 	case ModAction::TOGGLE_VISUALOBJECTS_ORNAMENTS:
 		XMLToolKit::Instance()->ToggleVisualObjectsOrnaments(m_anno1800data10AssetsLocation, !ModState::AreVisualObjectsOrnaments);
@@ -454,6 +714,9 @@ void Mod::ApplyChanges()
 	XMLToolKit::Instance()->ApplyChanges(m_anno1800data0ViewDistanceSettingsLocation);
 	XMLToolKit::Instance()->ApplyChanges(m_anno1800data0CameraSettingsLocation);
 	XMLToolKit::Instance()->ApplyChanges(m_anno1800data10AssetsLocation);
+	XMLToolKit::Instance()->ApplyChanges(m_anno1800data14AssetsLocation);
+	XMLToolKit::Instance()->ApplyChanges(m_anno1800data15AssetsLocation);
+	XMLToolKit::Instance()->ApplyChanges(m_anno1800data16AssetsLocation);
 	std::cout << "...done applying changes, importing game files into game..." << std::endl;
 	ImportGameData();
 	std::cout << "...done importing game files into game." << std::endl << std::endl;
@@ -463,13 +726,20 @@ void Mod::InitModState()
 {
 	std::cout << "Getting state of things, this might take a while..." << std::endl;
 	ModState::IsZoomInstalled = XMLToolKit::Instance()->IsZoomInstalled(m_anno1800data0ViewDistanceSettingsLocation, m_anno1800data0CameraSettingsLocation);
+
 	ModState::IsSquareOrnamentInstalled = XMLToolKit::Instance()->IsSquareOrnamentInstalled(m_anno1800data10AssetsLocation);
+
 	ModState::AreCityOrnamentsInstalled = XMLToolKit::Instance()->AreCityOrnamentsInstalled(m_anno1800data10AssetsLocation);
+
 	ModState::AreClubOrnamentsInstalled = XMLToolKit::Instance()->AreClubOrnamentsInstalled(m_anno1800data10AssetsLocation);
+
+	ModState::AreExtraOrnamentsInstalled = XMLToolKit::Instance()->AreExtraOrnamentsInstalled(m_anno1800data14AssetsLocation) && XMLToolKit::Instance()->AreExtraOrnamentsInstalled(m_anno1800data15AssetsLocation) && XMLToolKit::Instance()->AreExtraOrnamentsInstalled(m_anno1800data16AssetsLocation);
+
 	ModState::AreCheatOrnamentsInstalled = XMLToolKit::Instance()->AreCheatOrnamentsInstalled(m_anno1800data10AssetsLocation);
+
 	ModState::AreVisualObjectsOrnaments = XMLToolKit::Instance()->AreVisualObjectsOrnaments(m_anno1800data10AssetsLocation);
+
 	ModState::AreOrnamentsBoosted = XMLToolKit::Instance()->AreOrnamentsBoosted(m_anno1800data10AssetsLocation);
-	std::cout << "...done." << std::endl << std::endl;
 }
 
 void Mod::RunTest()

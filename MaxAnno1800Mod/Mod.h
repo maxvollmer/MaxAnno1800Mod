@@ -67,9 +67,15 @@ namespace MaxAnno1800Mod
 
 		std::filesystem::path m_anno1800data0Location;
 		std::filesystem::path m_anno1800data10Location;
+		std::filesystem::path m_anno1800data14Location;
+		std::filesystem::path m_anno1800data15Location;
+		std::filesystem::path m_anno1800data16Location;
 
 		std::filesystem::path m_anno1800data0ViewDistanceSettingsLocation;
 		std::filesystem::path m_anno1800data0CameraSettingsLocation;
 		std::filesystem::path m_anno1800data10AssetsLocation;
+		std::filesystem::path m_anno1800data14AssetsLocation;
+		std::filesystem::path m_anno1800data15AssetsLocation;
+		std::filesystem::path m_anno1800data16AssetsLocation;
 	};
 }

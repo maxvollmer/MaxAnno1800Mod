@@ -38,6 +38,7 @@ namespace MaxAnno1800Mod
 		static bool IsSquareOrnamentInstalled;
 		static bool AreCityOrnamentsInstalled;
 		static bool AreClubOrnamentsInstalled;
+		static bool AreExtraOrnamentsInstalled;
 		static bool AreCheatOrnamentsInstalled;
 		static bool AreVisualObjectsOrnaments;
 		static bool AreOrnamentsBoosted;

@@ -30,6 +30,7 @@
 
 #include "pch.h"
 #include "XMLToolKit.h"
+#include <iostream>
 
 using namespace MaxAnno1800Mod;
 
@@ -37,12 +38,15 @@ std::unique_ptr<XMLToolKit> XMLToolKit::m_instance = std::unique_ptr<XMLToolKit>
 
 XMLToolKit::XMLToolKit()
 {
-	HMODULE hXMLToolkitModule = LoadLibraryA("MaxAnno1800ModXMLToolkit.dll");
+	HMODULE	hXMLToolkitModule = LoadLibraryA("MaxAnno1800ModXMLToolkit.dll");
+	if (hXMLToolkitModule == NULL)
+		std::cout << GetLastError() << std::endl;
 
 	_IsZoomInstalled = reinterpret_cast<StateCallback2>(GetProcAddress(hXMLToolkitModule, "IsZoomInstalled"));
 	_IsSquareOrnamentInstalled = reinterpret_cast<StateCallback>(GetProcAddress(hXMLToolkitModule, "IsSquareOrnamentInstalled"));
 	_AreCityOrnamentsInstalled = reinterpret_cast<StateCallback>(GetProcAddress(hXMLToolkitModule, "AreCityOrnamentsInstalled"));
 	_AreClubOrnamentsInstalled = reinterpret_cast<StateCallback>(GetProcAddress(hXMLToolkitModule, "AreClubOrnamentsInstalled"));
+	_AreExtraOrnamentsInstalled = reinterpret_cast<StateCallback>(GetProcAddress(hXMLToolkitModule, "AreExtraOrnamentsInstalled"));
 	_AreCheatOrnamentsInstalled = reinterpret_cast<StateCallback>(GetProcAddress(hXMLToolkitModule, "AreCheatOrnamentsInstalled"));
 	_AreVisualObjectsOrnaments = reinterpret_cast<StateCallback>(GetProcAddress(hXMLToolkitModule, "AreVisualObjectsOrnaments"));
 	_AreOrnamentsBoosted = reinterpret_cast<StateCallback>(GetProcAddress(hXMLToolkitModule, "AreOrnamentsBoosted"));
@@ -51,6 +55,7 @@ XMLToolKit::XMLToolKit()
 	_ToggleSquareOrnament = reinterpret_cast<InstallCallback>(GetProcAddress(hXMLToolkitModule, "ToggleSquareOrnament"));
 	_ToggleCityOrnaments = reinterpret_cast<InstallCallback>(GetProcAddress(hXMLToolkitModule, "ToggleCityOrnaments"));
 	_ToggleClubOrnaments = reinterpret_cast<InstallCallback>(GetProcAddress(hXMLToolkitModule, "ToggleClubOrnaments"));
+	_ToggleExtraOrnaments = reinterpret_cast<InstallCallback>(GetProcAddress(hXMLToolkitModule, "ToggleExtraOrnaments"));
 	_ToggleCheatOrnaments = reinterpret_cast<InstallCallback>(GetProcAddress(hXMLToolkitModule, "ToggleCheatOrnaments"));
 	_ToggleVisualObjectsOrnaments = reinterpret_cast<InstallCallback>(GetProcAddress(hXMLToolkitModule, "ToggleVisualObjectsOrnaments"));
 	_ToggleOrnamentBoost = reinterpret_cast<InstallCallback>(GetProcAddress(hXMLToolkitModule, "ToggleOrnamentBoost"));
@@ -79,6 +84,11 @@ bool XMLToolKit::AreClubOrnamentsInstalled(const std::filesystem::path& pdataAss
 	return _AreClubOrnamentsInstalled((void*)pdataAssetsLocation.string().data()) != 0;
 }
 
+bool XMLToolKit::AreExtraOrnamentsInstalled(const std::filesystem::path& pdataAssetsLocation) const
+{
+	return _AreExtraOrnamentsInstalled((void*)pdataAssetsLocation.string().data()) != 0;
+}
+
 bool XMLToolKit::AreCheatOrnamentsInstalled(const std::filesystem::path& pdataAssetsLocation) const
 {
 	return _AreCheatOrnamentsInstalled((void*)pdataAssetsLocation.string().data()) != 0;
@@ -93,7 +103,6 @@ bool XMLToolKit::AreOrnamentsBoosted(const std::filesystem::path& pdataAssetsLoc
 {
 	return _AreOrnamentsBoosted((void*)pdataAssetsLocation.string().data()) != 0;
 }
-
 
 void XMLToolKit::ToggleZoom(const std::filesystem::path& pViewDistanceSettingsFile, const std::filesystem::path& pCameraSettingsFile, bool install) const
 {
@@ -113,6 +122,11 @@ void XMLToolKit::ToggleCityOrnaments(const std::filesystem::path& pdataAssetsLoc
 void XMLToolKit::ToggleClubOrnaments(const std::filesystem::path& pdataAssetsLocation, bool install) const
 {
 	_ToggleClubOrnaments((void*)pdataAssetsLocation.string().data(), install ? 1 : 0);
+}
+
+void XMLToolKit::ToggleExtraOrnaments(const std::filesystem::path& pdataAssetsLocation, bool install) const
+{
+	_ToggleExtraOrnaments((void*)pdataAssetsLocation.string().data(), install ? 1 : 0);
 }
 
 void XMLToolKit::ToggleCheatOrnaments(const std::filesystem::path& pdataAssetsLocation, bool install) const

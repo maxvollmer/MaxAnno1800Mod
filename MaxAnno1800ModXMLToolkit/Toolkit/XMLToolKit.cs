@@ -135,7 +135,20 @@ namespace MaxAnno1800ModXMLToolkit.Toolkit
                 return false;
             }
         }
+        public static bool AreExtraOrnamentsInstalled(string dataAssetsFile)
+        {
+            try
+            {
+                XDocument dataAssetsXML = LoadXML(dataAssetsFile);
 
+                return ExtraOrnamentUnlocker.AreExtraOrnamentsInstalled(dataAssetsXML);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("AreClubOrnamentsInstalled caught exception: {0}", e);
+                return false;
+            }
+        }
         public static bool AreCheatOrnamentsInstalled(string dataAssetsFile)
         {
             try
@@ -270,6 +283,27 @@ namespace MaxAnno1800ModXMLToolkit.Toolkit
             catch (Exception e)
             {
                 Console.WriteLine("ToggleClubOrnaments caught exception: {0}", e);
+            }
+        }
+        public static void ToggleExtraOrnaments(string dataAssetsFile, bool install)
+        {
+            try
+            {
+                PrintInstallMessage("extra club ornaments", install);
+                XDocument dataAssetsXML = LoadXML(dataAssetsFile);
+                if (install)
+                {
+                    ExtraOrnamentUnlocker.UnlockExtraOrnaments(dataAssetsXML);
+                }
+                else
+                {
+                    ExtraOrnamentUnlocker.UnlockExtraOrnaments(dataAssetsXML);
+                }
+                PrintDoneMessage("extra club ornaments", install);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ToggleExtraOrnaments caught exception: {0}", e);
             }
         }
 

@@ -37,6 +37,7 @@ bool ModState::IsZoomInstalled{ false };
 bool ModState::IsSquareOrnamentInstalled{ false };
 bool ModState::AreCityOrnamentsInstalled{ false };
 bool ModState::AreClubOrnamentsInstalled{ false };
+bool ModState::AreExtraOrnamentsInstalled{ false };
 bool ModState::AreCheatOrnamentsInstalled{ false };
 bool ModState::AreVisualObjectsOrnaments{ false };
 bool ModState::AreOrnamentsBoosted{ false };

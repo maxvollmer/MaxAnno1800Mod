@@ -44,6 +44,7 @@ namespace MaxAnno1800Mod
 		bool IsSquareOrnamentInstalled(const std::filesystem::path& pdataAssetsLocation) const;
 		bool AreCityOrnamentsInstalled(const std::filesystem::path& pdataAssetsLocation) const;
 		bool AreClubOrnamentsInstalled(const std::filesystem::path& pdataAssetsLocation) const;
+		bool AreExtraOrnamentsInstalled(const std::filesystem::path& pdataAssetsLocation) const;
 		bool AreCheatOrnamentsInstalled(const std::filesystem::path& pdataAssetsLocation) const;
 		bool AreVisualObjectsOrnaments(const std::filesystem::path& pdataAssetsLocation) const;
 		bool AreOrnamentsBoosted(const std::filesystem::path& pdataAssetsLocation) const;
@@ -52,6 +53,7 @@ namespace MaxAnno1800Mod
 		void ToggleSquareOrnament(const std::filesystem::path& pdataAssetsLocation, bool install) const;
 		void ToggleCityOrnaments(const std::filesystem::path& pdataAssetsLocation, bool install) const;
 		void ToggleClubOrnaments(const std::filesystem::path& pdataAssetsLocation, bool install) const;
+		void ToggleExtraOrnaments(const std::filesystem::path& pdataAssetsLocation, bool install) const;
 		void ToggleCheatOrnaments(const std::filesystem::path& pdataAssetsLocation, bool install) const;
 		void ToggleVisualObjectsOrnaments(const std::filesystem::path& pdataAssetsLocation, bool install) const;
 		void ToggleOrnamentBoost(const std::filesystem::path& pdataAssetsLocation, bool install) const;
@@ -71,6 +73,7 @@ namespace MaxAnno1800Mod
 		StateCallback _IsSquareOrnamentInstalled{ nullptr };
 		StateCallback _AreCityOrnamentsInstalled{ nullptr };
 		StateCallback _AreClubOrnamentsInstalled{ nullptr };
+		StateCallback _AreExtraOrnamentsInstalled{ nullptr };
 		StateCallback _AreCheatOrnamentsInstalled{ nullptr };
 		StateCallback _AreVisualObjectsOrnaments{ nullptr };
 		StateCallback _AreOrnamentsBoosted{ nullptr };
@@ -79,6 +82,7 @@ namespace MaxAnno1800Mod
 		InstallCallback _ToggleSquareOrnament{ nullptr };
 		InstallCallback _ToggleCityOrnaments{ nullptr };
 		InstallCallback _ToggleClubOrnaments{ nullptr };
+		InstallCallback _ToggleExtraOrnaments{ nullptr };
 		InstallCallback _ToggleCheatOrnaments{ nullptr };
 		InstallCallback _ToggleVisualObjectsOrnaments{ nullptr };
 		InstallCallback _ToggleOrnamentBoost{ nullptr };

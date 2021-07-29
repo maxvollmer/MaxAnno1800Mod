@@ -62,7 +62,11 @@ namespace MaxAnno1800ModXMLToolkit
         {
             return XMLToolKit.AreClubOrnamentsInstalled(Marshal.PtrToStringAnsi(pdataAssetsFile)) ? 1 : 0;
         }
-
+        [DllExport(ExportName = "AreExtraOrnamentsInstalled", CallingConvention = CallingConvention.StdCall)]
+        static public int AreExtraOrnamentsInstalled(IntPtr pdataAssetsFile)
+        {
+            return XMLToolKit.AreExtraOrnamentsInstalled(Marshal.PtrToStringAnsi(pdataAssetsFile)) ? 1 : 0;
+        }
         [DllExport(ExportName = "AreCheatOrnamentsInstalled", CallingConvention = CallingConvention.StdCall)]
         static public int AreCheatOrnamentsInstalled(IntPtr pdataAssetsFile)
         {
@@ -106,7 +110,11 @@ namespace MaxAnno1800ModXMLToolkit
         {
             XMLToolKit.ToggleClubOrnaments(Marshal.PtrToStringAnsi(pdataAssetsFile), install != 0);
         }
-
+        [DllExport(ExportName = "ToggleExtraOrnaments", CallingConvention = CallingConvention.StdCall)]
+        static public void ToggleExtraOrnaments(IntPtr pdataAssetsFile, int install)
+        {
+            XMLToolKit.ToggleExtraOrnaments(Marshal.PtrToStringAnsi(pdataAssetsFile), install != 0);
+        }
         [DllExport(ExportName = "ToggleCheatOrnaments", CallingConvention = CallingConvention.StdCall)]
         static public void ToggleCheatOrnaments(IntPtr pdataAssetsFile, int install)
         {
